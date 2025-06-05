@@ -1,0 +1,7 @@
+TIPO,PREGUNTA,OPCIONES,RESPUESTA_CORRECTA,NIVEL,
+SELECCION_M,¿Cuál de los siguientes es el nivel más básico de la Taxonomía de Bloom (revisada)?,Analizar;Aplicar;Recordar;Crear,Recordar,RECORDAR,10
+SELECCION_M,¿Qué habilidad cognitiva se demuestra principalmente al parafrasear un concepto de la Taxonomía de Bloom?,Evaluar el concepto;Crear un nuevo concepto;Comprender el concepto;Memorizar el concepto,Comprender el concepto,ENTENDER,15
+SELECCION_M,¿Cuál de las siguientes actividades corresponde principalmente al nivel 'Analizar' en la Taxonomía de Bloom?,Listar los seis niveles;Explicar la diferencia entre 'Aplicar' y 'Analizar';Diseñar una nueva categoría;Identificar las suposiciones subyacentes en un objetivo de aprendizaje,Identificar las suposiciones subyacentes en un objetivo de aprendizaje,ANALIZAR,20
+SELECCION_M,¿Cuál de las siguientes acciones describe mejor el nivel 'Crear' de la Taxonomía de Bloom en el contexto de la planificación de una lección?,Resumir un texto sobre la taxonomía;Comparar dos niveles de la taxonomía;Formular un objetivo de aprendizaje original y complejo;Identificar los componentes de la taxonomía,Formular un objetivo de aprendizaje original y complejo,CREAR,20
+VERDADERO_,La Taxonomía de Bloom fue desarrollada originalmente por Benjamin Bloom en la década de 1950.,verdadero;falso,VERDADERO,RECORDAR,5
+VERDADERO_,El nivel 'Aplicar' de la Taxonomía de Bloom implica simplemente recordar información factual sin usarla en una situación nueva.,verdadero;falso,FALSO,ENTENDER,5
