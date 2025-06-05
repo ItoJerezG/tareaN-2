@@ -1,0 +1,120 @@
+Aplicación de Pruebas Taxonomía de Bloom
+
+Descripción General
+Esta aplicación es un sistema de gestión y rendición de pruebas que permite cargar preguntas desde un archivo CSV. Las preguntas están clasificadas según la Taxonomía de Bloom y pueden ser de diferentes tipos (ej. Verdadero/Falso, Opción Múltiple). La aplicación presenta las preguntas al usuario de forma secuencial, permite registrar sus respuestas y, al finalizar, muestra un resumen del desempeño clasificando las respuestas correctas por Nivel de Bloom y por Tipo de Pregunta.
+
+1. Alcances
+Carga de Ítems:** La aplicación puede cargar preguntas (ítems) desde un archivo con formato CSV.
+Navegación:** El usuario puede navegar entre las preguntas utilizando botones de "Siguiente" y "Atrás".
+Tipos de Preguntas Soportados:**
+Opción Múltiple (con hasta 4 opciones visibles).
+ Verdadero/Falso (se considera un caso especial de opción múltiple con dos opciones).
+Registro de Respuestas:** Las respuestas seleccionadas por el usuario se guardan para cada ítem.
+Envío y Revisión:** Al llegar al final de la prueba, el botón "Siguiente" cambia a "Enviar respuestas". Al presionarlo, se muestra una ventana con un resumen del desempeño.
+Resumen de Desempeño:**
+ Cantidad de respuestas correctas agrupadas por Nivel de Bloom.
+ Cantidad de respuestas correctas agrupadas por Tipo de Pregunta.
+Interfaz Gráfica de Usuario (GUI):** Desarrollada con Java Swing.
+Modelo Vista Controlador (MVC) y Patrón Observador:** La estructura del código sigue principios de separación de responsabilidades, utilizando el patrón Observador para actualizar la vista cuando cambian los datos en el modelo (`GestorPrueba`).
+
+ 2. Supuestos
+Formato del Archivo CSV:** El archivo CSV de ítems debe seguir estrictamente la especificación detallada en la sección "Especificación del Archivo CSV de Ítems".
+Codificación del Archivo CSV:** Se espera que el archivo CSV esté codificado en UTF-8 (según `GestorPrueba.java`).
+Número de Opciones:** Aunque el sistema puede manejar internamente un número variable de opciones por pregunta, la interfaz gráfica (`PanelItem.java`) está diseñada para mostrar un máximo de 4 opciones mediante radio buttons. Si una pregunta en el CSV tiene más de 4 opciones, solo las primeras 4 serán visibles y seleccionables.
+Integridad de los Datos del CSV:** Se asume que los datos en el CSV son coherentes (ej. la respuesta correcta es una de las opciones listadas). No hay validaciones exhaustivas más allá del número de campos por línea.
+Entorno de Ejecución:** Se requiere tener instalado un Java Development Kit (JDK) compatible con la versión de Java utilizada para compilar el proyecto (probablemente Java 8 o superior debido al uso de `java.nio.charset.StandardCharsets` y lambdas).
+No Persistencia de Resultados:** Los resultados de la prueba y las respuestas seleccionadas solo se mantienen durante la sesión activa de la aplicación. Al cerrar la aplicación, esta información se pierde. No se guardan los resultados en disco.
+
+ 3. Estructura del Proyecto (Paquetes)
+El proyecto está organizado en los siguientes paquetes:
+ `backend`: Contiene la lógica de negocio y manejo de datos.
+ `GestorPrueba.java`: Clase central que maneja los ítems, respuestas y la lógica de la prueba.
+ `Item.java`: Define la estructura de una pregunta/ítem.
+ `Respuesta.java`: Define la estructura de una respuesta dada por el usuario.
+ `RevisionDePrueba.java`: Lógica para generar los resúmenes de la prueba.
+ `Observador.java`: Interfaz para el patrón Observador.
+`frontend`: Contiene las clases relacionadas con la interfaz gráfica de usuario.
+ `VentanaPrincipal.java`: Ventana principal de la aplicación que contiene los paneles de preguntas.
+ `PanelItem.java`: Panel que muestra una pregunta individual con sus opciones y botones de navegación.
+ `VistaRevisionDePrueba.java`: Ventana que muestra el resumen del desempeño.
+(Raíz o paquete por defecto)*:
+ `main.java`: Contiene el método `main` para iniciar la aplicación.
+
+ 4. Instrucciones de Ejecución
+
+ 4.1. Requisitos Previos
+ Tener Java Development Kit (JDK) instalado (versión 8 o superior recomendada).
+ Asegurarse de que el comando `java` y `javac` estén configurados en el PATH del sistema.
+
+ 4.2. Compilación
+1.  Abrir una terminal o línea de comandos.
+2.  Navegar hasta el directorio raíz del proyecto donde se encuentran los paquetes `backend`, `frontend` y el archivo `main.java`.
+3.  Si los archivos están en subdirectorios correspondientes a sus paquetes (ej. `backend/GestorPrueba.java`, `frontend/VentanaPrincipal.java`), compilar de la siguiente manera:
+
+    ```bash Desde el directorio que contiene a 'backend', 'frontend' y 'main.java'
+    javac backend/*.java frontend/*.java main.java
+    ```
+    Si todos los archivos `.java` están en el mismo directorio (sin estructura de paquetes definida en el sistema de archivos, aunque los `package` estén declarados en los fuentes), el comando sería más simple, pero la ejecución requeriría especificar el classpath correctamente o empaquetar en un JAR. Asumiendo que están organizados en carpetas:
+
+ 4.3. Ejecución
+1.  Una vez compilados los archivos `.java` (generando los archivos `.class`), ejecutar la aplicación desde el directorio que está *por encima* de los directorios de paquetes (`backend`, `frontend`). Si compilaste en un directorio `src` y las clases quedaron en un directorio `bin` (con la misma estructura de paquetes), navega al directorio `bin`. Si compilaste todo en el mismo lugar donde están los `.java`, y estos están organizados en carpetas `backend` y `frontend`, ejecuta desde el directorio que contiene estas carpetas.
+
+    ```bash
+    java main
+    ```
+    Esto ejecutará el método `main` de la clase `main`.
+
+2. Carga del Archivo de Ítems:**
+    Al iniciar la aplicación, se abrirá automáticamente un diálogo para seleccionar archivos (`JFileChooser`).
+    Navegue hasta la ubicación de su archivo CSV con los ítems de la prueba (ej. `preguntas tarea2 matito.csv`).
+    Seleccione el archivo y haga clic en "Abrir" (o el botón equivalente en su sistema operativo).
+    Si el archivo se carga correctamente, se mostrará la primera pregunta en la `VentanaPrincipal`.
+    Si ocurre un error durante la carga (ej. formato incorrecto, archivo no encontrado), se mostrará un mensaje de error.
+
+3. Realización de la Prueba:**
+    Lea la pregunta y seleccione una opción.
+    Use los botones "Atrás" y "Siguiente" para navegar entre las preguntas.
+    Al llegar a la última pregunta, el botón "Siguiente" cambiará su texto a "Enviar respuestas".
+    Haga clic en "Enviar respuestas" para finalizar la prueba.
+
+4. Visualización de Resultados:**
+    Después de enviar las respuestas, aparecerá una nueva ventana (`VistaRevisionDePrueba`) mostrando el resumen de respuestas correctas por Nivel de Bloom y por Tipo de Pregunta.
+    Puede cerrar esta ventana de revisión para volver a la ventana principal (aunque la prueba ya habrá finalizado en términos de interacción). Cerrar la ventana principal terminará la aplicación.
+
+5. Especificación del Archivo CSV de Ítems
+
+El archivo CSV debe contener un ítem (pregunta) por línea. Cada línea debe tener **6 campos** separados por comas (`,`). La codificación del archivo debe ser **UTF-8**.
+
+La estructura de cada línea es la siguiente:
+
+`TipoPregunta,TextoDeLaPregunta,OpcionesSeparadasPorPuntoYComa,RespuestaCorrecta,NivelDeBloom,TiempoEstimadoEnSegundos`
+
+Descripción de cada campo:**
+
+1. `TipoPregunta`** (String):
+    Define el tipo de la pregunta.
+    Ejemplos: `Verdadero/Falso`, `Opción Múltiple`, `Selección Única`.
+    Este campo se usa para agrupar en el resumen.
+
+2. `TextoDeLaPregunta`** (String):
+    El enunciado completo de la pregunta.
+    Si la pregunta contiene comas, debe ir entre comillas dobles (ej. `"Esta es una pregunta, ¿cuál es la opción?"`). Aunque el parser actual (`linea.split(",")`) es simple y podría no manejar comas dentro de campos correctamente sin un parseador CSV más robusto. Se recomienda evitar comas en el texto de la pregunta o usar un delimitador diferente si es necesario modificar el código. *Nota: El código actual (`linea.split(",")`) no maneja comillas para escapar comas dentro de un campo. Por lo tanto, el texto de la pregunta NO debe contener comas.*
+
+3. `OpcionesSeparadasPorPuntoYComa`** (String):
+    Una cadena de texto que contiene todas las opciones posibles para la pregunta, separadas entre sí por un punto y coma (`;`).
+    Ejemplo para Verdadero/Falso: `Verdadero;Falso`
+    Ejemplo para Opción Múltiple: `Opción A;Opción B;Opción C;Opción D`
+
+4. `RespuestaCorrecta`** (String):
+    El texto exacto de la opción que es la respuesta correcta. Debe coincidir con una de las opciones listadas en el campo anterior.
+    Ejemplo: `Verdadero` o `Opción C`
+
+5. `NivelDeBloom`** (String):
+    El nivel de la Taxonomía de Bloom al que pertenece la pregunta.
+    Ejemplos: `Conocimiento`, `Comprensión`, `Aplicación`, `Análisis`, `Síntesis`, `Evaluación`.
+    Este campo se usa para agrupar en el resumen.
+
+6. `TiempoEstimadoEnSegundos`** (Integer):
+    Un número entero que representa el tiempo estimado para responder la pregunta, en segundos.
+    Ejemplo: `30`, `60`, `120`.
+    Nota: Actualmente, este valor se carga pero no se utiliza activamente en la interfaz para controlar el tiempo.*
